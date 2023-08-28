@@ -5,4 +5,4 @@ Hands on Cloud Computing with AWS
 ref: https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
 *cd iac*
-*npm i* 
+*npm i*
