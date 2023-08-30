@@ -35,7 +35,9 @@ export class FloraStack extends Stack {
             instanceType: InstanceType.of(
                 InstanceClass.C7G,
                 InstanceSize.MEDIUM),
-            machineImage: MachineImage.latestAmazonLinux2023()
+            machineImage: MachineImage.latestAmazonLinux2023(),
+            keyName: `${FloraStack.PREFIX}-ec2-keypair`,
+            securityGroup: ec2_sg
         });
 
         // Create an ASG with 2-4 EC2 instances distributed across the 2 AZs
@@ -46,7 +48,6 @@ export class FloraStack extends Stack {
                 // Selects all public subnets across all AZs
                 subnetType: SubnetType.PUBLIC
             },
-            securityGroup: ec2_sg,
             // Auto Scaling tries to maintain equivalent numbers of instances in each AZ
             desiredCapacity: 2,
             minCapacity: 2,
