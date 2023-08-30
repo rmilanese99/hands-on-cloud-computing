@@ -3,6 +3,7 @@ import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage, Peer, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { VpcResources } from "./vpc";
 import { InstanceResources } from "./instance";
+import { LoadBalancerResources } from "./load-balancer";
 
 export const STACK_PREFIX = 'flora-unimol';
 
@@ -13,6 +14,7 @@ export class FloraStack extends Stack {
 
         const { vpc, alb_sg, ec2_sg } = new VpcResources(this, `${STACK_PREFIX}-vpc`);
         const { ec2_asg } = new InstanceResources(this, `${STACK_PREFIX}-instance`, { vpc, ec2_sg });
+        const { alb } = new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg });
     }
 
 }
