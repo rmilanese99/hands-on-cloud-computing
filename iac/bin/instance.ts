@@ -4,6 +4,7 @@ import { FileSystem } from "aws-cdk-lib/aws-efs";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
+import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 
 export class InstanceResources extends Construct {
 
@@ -12,10 +13,17 @@ export class InstanceResources extends Construct {
     constructor(scope: Construct, id: string, resources: { vpc: Vpc, ec2_sg: SecurityGroup, efs_sg: SecurityGroup }) {
         super(scope, id);
 
+        // Create an IAM role for the EC2 instances
+        const ec2_role = new Role(this, `${STACK_PREFIX}-ec2-role`, {
+            assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+        });
+
+        // Create an EFS and grant read/write access to the EC2 instances
         const efs = new FileSystem(this, `${STACK_PREFIX}-efs`, {
             vpc: resources.vpc,
             securityGroup: resources.efs_sg
         });
+        efs.grantReadWrite(ec2_role);
 
         // Define launch template for the EC2 instances in the ASG
         const ec2_template = new LaunchTemplate(this, `${STACK_PREFIX}-ec2-template`, {
@@ -23,7 +31,7 @@ export class InstanceResources extends Construct {
                 InstanceClass.C7G,
                 InstanceSize.MEDIUM),
             machineImage: MachineImage.latestAmazonLinux2023(),
-            keyName: `${STACK_PREFIX}-ec2-keypair`,
+            role: ec2_role,
             securityGroup: resources.ec2_sg
         });
 
