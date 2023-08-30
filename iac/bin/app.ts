@@ -53,6 +53,9 @@ export class FloraStack extends Stack {
             minCapacity: 2,
             maxCapacity: 4
         });
+        ec2_asg.scaleOnCpuUtilization(`${FloraStack.PREFIX}-ec2-scaling`, {
+            targetUtilizationPercent: 80
+        });
     }
 
 }
