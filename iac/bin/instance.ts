@@ -1,5 +1,6 @@
 import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
+import { FileSystem } from "aws-cdk-lib/aws-efs";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
@@ -8,8 +9,13 @@ export class InstanceResources extends Construct {
 
     public ec2_asg: AutoScalingGroup;
 
-    constructor(scope: Construct, id: string, resources: { vpc: Vpc, ec2_sg: SecurityGroup }) {
+    constructor(scope: Construct, id: string, resources: { vpc: Vpc, ec2_sg: SecurityGroup, efs_sg: SecurityGroup }) {
         super(scope, id);
+
+        const efs = new FileSystem(this, `${STACK_PREFIX}-efs`, {
+            vpc: resources.vpc,
+            securityGroup: resources.efs_sg
+        });
 
         // Define launch template for the EC2 instances in the ASG
         const ec2_template = new LaunchTemplate(this, `${STACK_PREFIX}-ec2-template`, {
