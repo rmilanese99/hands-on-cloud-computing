@@ -12,8 +12,8 @@ export class FloraStack extends Stack {
     constructor(app: App, id: string) {
         super(app, id);
 
-        const { vpc, alb_sg, ec2_sg } = new VpcResources(this, `${STACK_PREFIX}-vpc`);
-        const { ec2_asg } = new InstanceResources(this, `${STACK_PREFIX}-instance`, { vpc, ec2_sg });
+        const { vpc, alb_sg, ec2_sg } = new VpcResources(this, `${STACK_PREFIX}-vpc-res`);
+        const { ec2_asg } = new InstanceResources(this, `${STACK_PREFIX}-ec2-res`, { vpc, ec2_sg });
         const { alb } = new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg });
     }
 
