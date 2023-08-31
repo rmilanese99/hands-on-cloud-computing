@@ -3,6 +3,7 @@ import { App, Stack } from "aws-cdk-lib";
 import { VpcResources } from "./vpc";
 import { InstanceResources } from "./instance";
 import { LoadBalancerResources } from "./load-balancer";
+import { CognitoResources } from "./cognito";
 
 export const STACK_PREFIX = 'flora-unimol';
 
@@ -12,8 +13,13 @@ export class FloraStack extends Stack {
         super(app, id);
 
         const { vpc, alb_sg, ec2_sg, efs_sg } = new VpcResources(this, `${STACK_PREFIX}-vpc-res`);
+
         const { ec2_asg } = new InstanceResources(this, `${STACK_PREFIX}-ec2-res`, { vpc, ec2_sg, efs_sg });
-        const { alb } = new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg });
+
+        const { cognito_pool, cognito_domain } = new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
+
+        const { alb } = new LoadBalancerResources(
+            this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg, cognito_pool, cognito_domain });
     }
 
 }
@@ -22,4 +28,4 @@ export class FloraStack extends Stack {
 ** Creare il modello dell'app (costrutto e stack)
 ** Ho inserito nel sec.group allowAllOutbound: true per l'ALB, ma non so se è corretto (vedere se è giusto)
 ** Dobbiamo creare in IAM Role  per la EC2 (e nel caso aggiungerlo all'istanza) https://bobbyhadz.com/blog/aws-cdk-ec2-instance-example
-*/ 
+*/
