@@ -10,11 +10,11 @@ export class CognitoResources extends Construct {
 
     constructor(scope: Construct, id: string) {
         super(scope, id);
-
+        //Creato lo user pool
         const cognito_pool = new UserPool(this, `${STACK_PREFIX}-cognito-pool`, {
             accountRecovery: AccountRecovery.EMAIL_ONLY
         });
-
+        //Creato il dominio epr lo user pool
         const cognito_domain = new UserPoolDomain(this, `${STACK_PREFIX}-cognito-domain`, {
             userPool: cognito_pool,
             cognitoDomain: {
