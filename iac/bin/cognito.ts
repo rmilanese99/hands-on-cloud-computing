@@ -1,4 +1,4 @@
-import { AccountRecovery, UserPool, UserPoolDomain } from "aws-cdk-lib/aws-cognito";
+import { AccountRecovery, UserPool, UserPoolClient } from "aws-cdk-lib/aws-cognito";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
@@ -6,23 +6,32 @@ import { STACK_PREFIX } from "./app";
 export class CognitoResources extends Construct {
 
     public cognito_pool: UserPool;
-    public cognito_domain: UserPoolDomain;
+    public cognito_client: UserPoolClient;
 
     constructor(scope: Construct, id: string) {
         super(scope, id);
-        //Creato lo user pool
+
+        // Creates a Cognito user pool to authenticate requests to the API Gateway
         const cognito_pool = new UserPool(this, `${STACK_PREFIX}-cognito-pool`, {
-            accountRecovery: AccountRecovery.EMAIL_ONLY
+            selfSignUpEnabled: true,
+            signInAliases: {
+                email: true,
+                username: true
+            },
+            accountRecovery: AccountRecovery.EMAIL_ONLY,
         });
-        //Creato il dominio epr lo user pool
-        const cognito_domain = new UserPoolDomain(this, `${STACK_PREFIX}-cognito-domain`, {
+
+        // Creates a Cognito client to configure the authentication flow on the Amplify frontend
+        const cognito_client = new UserPoolClient(this, `${STACK_PREFIX}-cognito-client`, {
             userPool: cognito_pool,
-            cognitoDomain: {
-                domainPrefix: `${STACK_PREFIX}-cognito`
+            authFlows: {
+                custom: true,
+                userPassword: true,
+                userSrp: true
             }
         });
 
         this.cognito_pool = cognito_pool;
-        this.cognito_domain = cognito_domain;
+        this.cognito_client = cognito_client;
     }
 }

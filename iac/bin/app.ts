@@ -19,7 +19,7 @@ export class FloraStack extends Stack {
         const { ec2_asg } =
             new InstanceResources(this, `${STACK_PREFIX}-ec2-res`, { vpc, ec2_sg, efs_sg });
 
-        const { cognito_pool, cognito_domain } =
+        const { cognito_pool, cognito_client } =
             new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
 
         const { alb, alb_listener, vpc_link } =
