@@ -1,6 +1,6 @@
-import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
-import { ApplicationLoadBalancer, ApplicationTargetGroup, ListenerAction, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
+import { ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
