@@ -1,4 +1,4 @@
-import { CfnVpcLink } from "aws-cdk-lib/aws-apigatewayv2";
+import { VpcLink } from "@aws-cdk/aws-apigatewayv2-alpha";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
@@ -10,7 +10,7 @@ export class LoadBalancerResources extends Construct {
 
     public alb: ApplicationLoadBalancer;
 
-    public vpc_link: CfnVpcLink
+    public vpc_link: VpcLink;
 
     constructor(scope: Construct, id: string, resources: {
         vpc: Vpc, alb_sg: SecurityGroup, ec2_asg: AutoScalingGroup, vpc_link_sg: SecurityGroup
@@ -40,10 +40,9 @@ export class LoadBalancerResources extends Construct {
         });
 
         // Create a VPC link to allow the API Gateway to access the private EC2 instances through the ALB
-        const vpc_link = new CfnVpcLink(this, `${STACK_PREFIX}-vpc-link`, {
-            name: `${STACK_PREFIX}-vpc-link`,
-            subnetIds: resources.vpc.privateSubnets.map(subnet => subnet.subnetId),
-            securityGroupIds: [resources.vpc_link_sg.securityGroupId]
+        const vpc_link = new VpcLink(this, `${STACK_PREFIX}-vpc-link`, {
+            vpc: resources.vpc,
+            securityGroups: [resources.vpc_link_sg]
         });
 
         this.alb = alb;
