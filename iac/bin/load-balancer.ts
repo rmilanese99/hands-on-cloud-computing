@@ -14,10 +14,9 @@ export class LoadBalancerResources extends Construct {
     }) {
         super(scope, id);
 
-        // Create an internet-facing ALB in the VPC
+        // Create an internal ALB in the VPC
         const alb = new ApplicationLoadBalancer(this, `${STACK_PREFIX}-alb`, {
             vpc: resources.vpc,
-            internetFacing: true,
             securityGroup: resources.alb_sg
         });
 
