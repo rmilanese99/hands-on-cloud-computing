@@ -1,10 +1,10 @@
-import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
+import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { FileSystem } from "aws-cdk-lib/aws-efs";
+import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
-import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 
 export class InstanceResources extends Construct {
 
@@ -40,8 +40,8 @@ export class InstanceResources extends Construct {
             launchTemplate: ec2_template,
             vpc: resources.vpc,
             vpcSubnets: {
-                // Selects all public subnets across all AZs
-                subnetType: SubnetType.PUBLIC
+                // Selects all private subnets across all AZs
+                subnetType: SubnetType.PRIVATE_ISOLATED
             },
             // Auto Scaling tries to maintain equivalent numbers of instances in each AZ
             desiredCapacity: 2,
