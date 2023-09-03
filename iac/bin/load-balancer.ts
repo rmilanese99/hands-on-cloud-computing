@@ -1,7 +1,7 @@
 import { VpcLink } from "@aws-cdk/aws-apigatewayv2-alpha";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
-import { ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import { ApplicationListener, ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
@@ -9,6 +9,7 @@ import { STACK_PREFIX } from "./app";
 export class LoadBalancerResources extends Construct {
 
     public alb: ApplicationLoadBalancer;
+    public alb_listener: ApplicationListener;
 
     public vpc_link: VpcLink;
 
@@ -34,7 +35,7 @@ export class LoadBalancerResources extends Construct {
         });
 
         // Add a listener to the ALB to forward incoming requests on port 80 to the target group
-        alb.addListener(`${STACK_PREFIX}-asg-listener`, {
+        const alb_listener = alb.addListener(`${STACK_PREFIX}-asg-listener`, {
             port: 80,
             defaultTargetGroups: [alb_group]
         });
@@ -46,6 +47,7 @@ export class LoadBalancerResources extends Construct {
         });
 
         this.alb = alb;
+        this.alb_listener = alb_listener;
 
         this.vpc_link = vpc_link;
     }

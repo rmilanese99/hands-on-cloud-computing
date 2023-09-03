@@ -1,5 +1,6 @@
 import { App, Stack } from "aws-cdk-lib";
 
+import { ApiGatewayResources } from "./api-gateway";
 import { CognitoResources } from "./cognito";
 import { InstanceResources } from "./instance";
 import { LoadBalancerResources } from "./load-balancer";
@@ -21,10 +22,11 @@ export class FloraStack extends Stack {
         const { cognito_pool, cognito_domain } =
             new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
 
-        const { alb, vpc_link } =
+        const { alb, alb_listener, vpc_link } =
             new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg, vpc_link_sg });
-    }
 
+        new ApiGatewayResources(this, `${STACK_PREFIX}-api-gateway-res`, { alb_listener, cognito_pool, vpc_link });
+    }
 }
 /*
 ** Dividere in più costrutti le AZ?
