@@ -1,9 +1,9 @@
 import { App, Stack } from "aws-cdk-lib";
 
-import { VpcResources } from "./vpc";
+import { CognitoResources } from "./cognito";
 import { InstanceResources } from "./instance";
 import { LoadBalancerResources } from "./load-balancer";
-import { CognitoResources } from "./cognito";
+import { VpcResources } from "./vpc";
 
 export const STACK_PREFIX = 'flora-unimol';
 
@@ -12,13 +12,17 @@ export class FloraStack extends Stack {
     constructor(app: App, id: string) {
         super(app, id);
 
-        const { vpc, alb_sg, ec2_sg, efs_sg } = new VpcResources(this, `${STACK_PREFIX}-vpc-res`);
+        const { vpc, alb_sg, ec2_sg, efs_sg, vpc_link_sg } =
+            new VpcResources(this, `${STACK_PREFIX}-vpc-res`);
 
-        const { ec2_asg } = new InstanceResources(this, `${STACK_PREFIX}-ec2-res`, { vpc, ec2_sg, efs_sg });
+        const { ec2_asg } =
+            new InstanceResources(this, `${STACK_PREFIX}-ec2-res`, { vpc, ec2_sg, efs_sg });
 
-        const { cognito_pool, cognito_domain } = new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
+        const { cognito_pool, cognito_domain } =
+            new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
 
-        const { alb } = new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg });
+        const { alb } =
+            new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg, vpc_link_sg });
     }
 
 }

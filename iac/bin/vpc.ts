@@ -10,6 +10,7 @@ export class VpcResources extends Construct {
     public alb_sg: SecurityGroup;
     public ec2_sg: SecurityGroup;
     public efs_sg: SecurityGroup;
+    public vpc_link_sg: SecurityGroup;
 
     constructor(scope: Construct, id: string) {
         super(scope, id);
@@ -26,13 +27,14 @@ export class VpcResources extends Construct {
             }]
         });
 
-        // Create security groups for the ALB, EC2 instances and EFS
+        // Create security groups for the ALB, EC2 instances, EFS and VPC Link
         const alb_sg = new SecurityGroup(this, `${STACK_PREFIX}-alb-sg`, { vpc, allowAllOutbound: true });
         const ec2_sg = new SecurityGroup(this, `${STACK_PREFIX}-ec2-sg`, { vpc });
         const efs_sg = new SecurityGroup(this, `${STACK_PREFIX}-efs-sg`, { vpc });
+        const vpc_link_sg = new SecurityGroup(this, `${STACK_PREFIX}-vpc-link-sg`, { vpc });
 
         // Define ingress rules for the ALB security group
-        alb_sg.addIngressRule(Peer.anyIpv4(), Port.tcp(80), 'Allow HTTP traffic on pot 80 from anywhere');
+        alb_sg.addIngressRule(vpc_link_sg, Port.tcp(80), 'Allow HTTP traffic from the VPC Link');
 
         // Define ingress rules for the EC2 security group
         ec2_sg.addIngressRule(Peer.anyIpv4(), Port.tcp(22), 'Allow SSH access from anywhere');
@@ -46,5 +48,6 @@ export class VpcResources extends Construct {
         this.alb_sg = alb_sg;
         this.ec2_sg = ec2_sg;
         this.efs_sg = efs_sg;
+        this.vpc_link_sg = vpc_link_sg;
     }
 }

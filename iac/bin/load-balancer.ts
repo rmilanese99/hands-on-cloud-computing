@@ -13,7 +13,7 @@ export class LoadBalancerResources extends Construct {
     public vpc_link: CfnVpcLink
 
     constructor(scope: Construct, id: string, resources: {
-        vpc: Vpc, alb_sg: SecurityGroup, ec2_asg: AutoScalingGroup
+        vpc: Vpc, alb_sg: SecurityGroup, ec2_asg: AutoScalingGroup, vpc_link_sg: SecurityGroup
     }) {
         super(scope, id);
 
@@ -42,6 +42,7 @@ export class LoadBalancerResources extends Construct {
         const vpc_link = new CfnVpcLink(this, `${STACK_PREFIX}-vpc-link`, {
             name: `${STACK_PREFIX}-vpc-link`,
             subnetIds: resources.vpc.privateSubnets.map(subnet => subnet.subnetId),
+            securityGroupIds: [resources.vpc_link_sg.securityGroupId]
         });
 
         this.alb = alb;
