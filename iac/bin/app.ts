@@ -18,8 +18,7 @@ export class FloraStack extends Stack {
 
         const { cognito_pool, cognito_domain } = new CognitoResources(this, `${STACK_PREFIX}-cognito-res`);
 
-        const { alb } = new LoadBalancerResources(
-            this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg, cognito_pool, cognito_domain });
+        const { alb } = new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg });
     }
 
 }
