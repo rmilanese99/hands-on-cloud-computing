@@ -17,7 +17,6 @@ export class VpcResources extends Construct {
         // Create a VPC spanning 2 AZs, with a public and a private subnet in each
         const vpc = new Vpc(this, `${STACK_PREFIX}-vpc`, {
             maxAzs: 2,
-            natGateways: 0,
             subnetConfiguration: [{
                 name: `${STACK_PREFIX}-public`,
                 subnetType: SubnetType.PUBLIC
