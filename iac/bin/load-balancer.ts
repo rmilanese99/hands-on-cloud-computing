@@ -1,3 +1,4 @@
+import { CfnVpcLink } from "aws-cdk-lib/aws-apigatewayv2";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
@@ -8,6 +9,8 @@ import { STACK_PREFIX } from "./app";
 export class LoadBalancerResources extends Construct {
 
     public alb: ApplicationLoadBalancer;
+
+    public vpc_link: CfnVpcLink
 
     constructor(scope: Construct, id: string, resources: {
         vpc: Vpc, alb_sg: SecurityGroup, ec2_asg: AutoScalingGroup
@@ -36,6 +39,13 @@ export class LoadBalancerResources extends Construct {
             defaultTargetGroups: [alb_group]
         });
 
+        const vpc_link = new CfnVpcLink(this, `${STACK_PREFIX}-vpc-link`, {
+            name: `${STACK_PREFIX}-vpc-link`,
+            subnetIds: resources.vpc.privateSubnets.map(subnet => subnet.subnetId),
+        });
+
         this.alb = alb;
+
+        this.vpc_link = vpc_link;
     }
 }
