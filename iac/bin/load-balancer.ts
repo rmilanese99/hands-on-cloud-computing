@@ -39,6 +39,7 @@ export class LoadBalancerResources extends Construct {
             defaultTargetGroups: [alb_group]
         });
 
+        // Create a VPC link to allow the API Gateway to access the private EC2 instances through the ALB
         const vpc_link = new CfnVpcLink(this, `${STACK_PREFIX}-vpc-link`, {
             name: `${STACK_PREFIX}-vpc-link`,
             subnetIds: resources.vpc.privateSubnets.map(subnet => subnet.subnetId),
