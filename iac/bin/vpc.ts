@@ -14,13 +14,16 @@ export class VpcResources extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
 
-        // Create a VPC spanning 2 AZs, with a public subnet in each
+        // Create a VPC spanning 2 AZs, with a public and a private subnet in each
         const vpc = new Vpc(this, `${STACK_PREFIX}-vpc`, {
             maxAzs: 2,
             natGateways: 0,
             subnetConfiguration: [{
                 name: `${STACK_PREFIX}-public`,
                 subnetType: SubnetType.PUBLIC
+            }, {
+                name: `${STACK_PREFIX}-private`,
+                subnetType: SubnetType.PRIVATE_ISOLATED
             }]
         });
 
