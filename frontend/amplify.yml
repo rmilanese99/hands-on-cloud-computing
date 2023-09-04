@@ -9,6 +9,7 @@ applications:
           commands:
             - echo "NG_APP_USERPOOL_ID=$AMPLIFY_USERPOOL_ID" >> .env
             - echo "NG_APP_WEBCLIENT_ID=$AMPLIFY_WEBCLIENT_ID" >> .env
+            - echo "NG_APP_API_ENDPOINT=$AMPLIFY_API_ENDPOINT" >> .env
             - npm run build
       artifacts:
         baseDirectory: dist/frontend

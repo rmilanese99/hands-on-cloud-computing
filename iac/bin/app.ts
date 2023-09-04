@@ -26,10 +26,10 @@ export class FloraStack extends Stack {
         const { alb, alb_listener, vpc_link } =
             new LoadBalancerResources(this, `${STACK_PREFIX}-lb-res`, { vpc, alb_sg, ec2_asg, vpc_link_sg });
 
-        new ApiGatewayResources(this, `${STACK_PREFIX}-api-gateway-res`,
+        const { api_gateway } = new ApiGatewayResources(this, `${STACK_PREFIX}-api-gateway-res`,
             { alb_listener, cognito_client, cognito_pool, vpc_link });
 
-        new AmplifyResources(this, `${STACK_PREFIX}-amplify-res`, { cognito_client, cognito_pool });
+        new AmplifyResources(this, `${STACK_PREFIX}-amplify-res`, { api_gateway, cognito_client, cognito_pool });
     }
 }
 /*
