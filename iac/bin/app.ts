@@ -1,5 +1,6 @@
 import { App, Stack } from "aws-cdk-lib";
 
+import { AmplifyResources } from "./amplify";
 import { ApiGatewayResources } from "./api-gateway";
 import { CognitoResources } from "./cognito";
 import { InstanceResources } from "./instance";
