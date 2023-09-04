@@ -26,6 +26,7 @@ export class LoadBalancerResources extends Construct {
 
         // Create a target group for the EC2 instances
         const alb_group = new ApplicationTargetGroup(this, `${STACK_PREFIX}-asg-tg`, {
+            vpc: resources.vpc,
             port: 80,
             // Here we use the least outstanding requests algorithm to distribute requests as they may vary in
             // complexity
