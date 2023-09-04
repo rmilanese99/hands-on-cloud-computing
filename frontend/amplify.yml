@@ -1,0 +1,20 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            - npm install
+        build:
+          commands:
+            - echo "NG_APP_USERPOOL_ID=$AMPLIFY_USERPOOL_ID" >> .env
+            - echo "NG_APP_WEBCLIENT_ID=$AMPLIFY_WEBCLIENT_ID" >> .env
+            - npm run build
+      artifacts:
+        baseDirectory: dist/frontend
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+    appRoot: frontend
