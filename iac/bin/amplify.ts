@@ -14,7 +14,9 @@ export class AmplifyResources extends Construct {
             sourceCodeProvider: new GitHubSourceCodeProvider({
                 owner: 'rmilanese99',
                 repository: 'hands-on-cloud-computing',
-                oauthToken: SecretValue.secretsManager(`${STACK_PREFIX}-github-token`)
+                oauthToken: SecretValue.secretsManager(`${STACK_PREFIX}`, {
+                    jsonField: 'github-token'
+                })
             }),
             environmentVariables: {
                 AMPLIFY_MONOREPO_APP_ROOT: 'frontend',
