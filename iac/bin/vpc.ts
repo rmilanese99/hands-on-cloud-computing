@@ -23,12 +23,12 @@ export class VpcResources extends Construct {
                 subnetType: SubnetType.PUBLIC
             }, {
                 name: `${STACK_PREFIX}-private`,
-                subnetType: SubnetType.PRIVATE_ISOLATED
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS
             }]
         });
 
         // Create security groups for the ALB, EC2 instances, EFS and VPC Link
-        const alb_sg = new SecurityGroup(this, `${STACK_PREFIX}-alb-sg`, { vpc, allowAllOutbound: true });
+        const alb_sg = new SecurityGroup(this, `${STACK_PREFIX}-alb-sg`, { vpc });
         const ec2_sg = new SecurityGroup(this, `${STACK_PREFIX}-ec2-sg`, { vpc });
         const efs_sg = new SecurityGroup(this, `${STACK_PREFIX}-efs-sg`, { vpc });
         const vpc_link_sg = new SecurityGroup(this, `${STACK_PREFIX}-vpc-link-sg`, { vpc });
