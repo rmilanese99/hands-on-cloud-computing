@@ -27,6 +27,8 @@ export class FloraStack extends Stack {
 
         new ApiGatewayResources(this, `${STACK_PREFIX}-api-gateway-res`,
             { alb_listener, cognito_client, cognito_pool, vpc_link });
+
+        new AmplifyResources(this, `${STACK_PREFIX}-amplify-res`, { cognito_client, cognito_pool });
     }
 }
 /*
