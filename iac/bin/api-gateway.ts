@@ -9,6 +9,8 @@ import { STACK_PREFIX } from './app';
 
 export class ApiGatewayResources extends Construct {
 
+    public api_gateway: HttpApi;
+
     constructor(scope: Construct, id: string, resources: {
         alb_listener: ApplicationListener, cognito_client: UserPoolClient, cognito_pool: UserPool, vpc_link: VpcLink
     }) {
@@ -32,5 +34,7 @@ export class ApiGatewayResources extends Construct {
             defaultIntegration: vpc_link_integration,
             defaultAuthorizer: cognito_authorizer
         });
+
+        this.api_gateway = api_gateway;
     }
 }
