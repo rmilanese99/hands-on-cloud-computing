@@ -41,7 +41,7 @@ export class InstanceResources extends Construct {
             vpc: resources.vpc,
             vpcSubnets: {
                 // Selects all private subnets across all AZs
-                subnetType: SubnetType.PRIVATE_ISOLATED
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS
             },
             // Auto Scaling tries to maintain equivalent numbers of instances in each AZ
             desiredCapacity: 2,
