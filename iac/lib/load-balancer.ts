@@ -4,7 +4,7 @@ import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
 import { ApplicationListener, ApplicationLoadBalancer, ApplicationProtocol, ApplicationTargetGroup, ListenerAction, ListenerCondition, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { Construct } from "constructs";
 
-import { STACK_PREFIX } from "./app";
+import { STACK_PREFIX } from "../bin/app";
 
 export class LoadBalancerResources extends Construct {
 

@@ -5,7 +5,7 @@ import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { readFileSync } from "fs";
 
-import { STACK_PREFIX } from "./app";
+import { STACK_PREFIX } from "../bin/app";
 
 export class InstanceResources extends Construct {
 

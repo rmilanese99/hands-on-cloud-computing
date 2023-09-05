@@ -5,7 +5,7 @@ import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
 import { ApplicationListener } from 'aws-cdk-lib/aws-elasticloadbalancingv2';
 import { Construct } from 'constructs';
 
-import { STACK_PREFIX } from './app';
+import { STACK_PREFIX } from "../bin/app";
 
 export class ApiGatewayResources extends Construct {
 
