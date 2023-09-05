@@ -1,4 +1,4 @@
-import { HttpApi, VpcLink } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { CorsHttpMethod, HttpApi, VpcLink } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpUserPoolAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers-alpha';
 import { HttpAlbIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
@@ -32,7 +32,13 @@ export class ApiGatewayResources extends Construct {
         // instances behind the ALB
         const api_gateway = new HttpApi(this, `${STACK_PREFIX}-api-gateway`, {
             defaultIntegration: vpc_link_integration,
-            defaultAuthorizer: cognito_authorizer
+            defaultAuthorizer: cognito_authorizer,
+            corsPreflight: {
+                allowOrigins: ['*'],
+                allowMethods: [CorsHttpMethod.ANY],
+                allowHeaders: ['*'],
+                allowCredentials: true
+            }
         });
 
         this.api_gateway = api_gateway;
