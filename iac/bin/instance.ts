@@ -13,7 +13,7 @@ export class InstanceResources extends Construct {
     constructor(scope: Construct, id: string, resources: { vpc: Vpc, ec2_sg: SecurityGroup, efs_sg: SecurityGroup }) {
         super(scope, id);
 
-        // Create an IAM role for the EC2 instances
+        // Create an IAM role for the EC2 instances for the EFS
         const ec2_role = new Role(this, `${STACK_PREFIX}-ec2-role`, {
             assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
         });
