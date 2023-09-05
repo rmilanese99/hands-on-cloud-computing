@@ -9,6 +9,9 @@ The colleague also managed to find a small loan to start the project; he asked y
 After taking notes on the back of a McDonald's receipt, you accept and start working on the design of the infrastructure on AWS right away. 
 Before leaving, you promise your friend that the next time you see each other,  you will also have provisioned the entire infrastructure, and you can work together on **installing the model**.
 
+> Presentation: [Power Point presentation](https://studentiunimol-my.sharepoint.com/:p:/g/personal/a_daguanno1_studenti_unimol_it/EeF7jeptegRHoaFa4UXAtO0BM1GQh4xyAXjF0eo7cGQpIQ?e=OSd3Xn&nav=eyJzSWQiOjI3MywiY0lkIjoyMjgyMDY5MzQwfQ)
+
+
 # Install dependencies
 ref: https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 
