@@ -21,10 +21,6 @@ export class AmplifyResources extends Construct {
                     jsonField: 'github-token'
                 })
             }),
-            autoBranchCreation: {
-                patterns: ['master']
-            },
-            autoBranchDeletion: true,
             environmentVariables: {
                 AMPLIFY_MONOREPO_APP_ROOT: 'frontend',
                 AMPLIFY_USERPOOL_ID: resources.cognito_pool.userPoolId,
@@ -32,5 +28,6 @@ export class AmplifyResources extends Construct {
                 AMPLIFY_API_ENDPOINT: resources.api_gateway.apiEndpoint
             }
         });
+        amplify_app.addBranch('master');
     }
 }
