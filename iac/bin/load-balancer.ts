@@ -1,7 +1,7 @@
 import { VpcLink } from "@aws-cdk/aws-apigatewayv2-alpha";
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { SecurityGroup, Vpc } from "aws-cdk-lib/aws-ec2";
-import { ApplicationListener, ApplicationLoadBalancer, ApplicationTargetGroup, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
+import { ApplicationListener, ApplicationLoadBalancer, ApplicationProtocol, ApplicationTargetGroup, ListenerAction, ListenerCondition, TargetGroupLoadBalancingAlgorithmType } from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import { Construct } from "constructs";
 
 import { STACK_PREFIX } from "./app";
@@ -27,7 +27,8 @@ export class LoadBalancerResources extends Construct {
         // Create a target group for the EC2 instances
         const alb_group = new ApplicationTargetGroup(this, `${STACK_PREFIX}-asg-tg`, {
             vpc: resources.vpc,
-            port: 80,
+            port: 8080,
+            protocol: ApplicationProtocol.HTTP,
             // Here we use the least outstanding requests algorithm to distribute requests 
             // as they may vary in complexity
             loadBalancingAlgorithmType:
