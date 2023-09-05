@@ -8,7 +8,9 @@ import { STACK_PREFIX } from "./app";
 
 export class AmplifyResources extends Construct {
 
-    constructor(scope: Construct, id: string, resources: { api_gateway: HttpApi, cognito_client: UserPoolClient, cognito_pool: UserPool }) {
+    constructor(scope: Construct, id: string, resources: {
+        api_gateway: HttpApi, cognito_client: UserPoolClient, cognito_pool: UserPool
+    }) {
         super(scope, id);
 
         const amplify_app = new App(this, `${STACK_PREFIX}-app`, {
@@ -19,6 +21,10 @@ export class AmplifyResources extends Construct {
                     jsonField: 'github-token'
                 })
             }),
+            autoBranchCreation: {
+                patterns: ['master']
+            },
+            autoBranchDeletion: true,
             environmentVariables: {
                 AMPLIFY_MONOREPO_APP_ROOT: 'frontend',
                 AMPLIFY_USERPOOL_ID: resources.cognito_pool.userPoolId,
