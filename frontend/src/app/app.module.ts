@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
@@ -14,7 +15,8 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AmplifyAuthenticatorModule
+    AmplifyAuthenticatorModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
