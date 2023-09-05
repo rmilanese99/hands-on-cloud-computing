@@ -1,7 +1,7 @@
 import { Peer, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { Construct } from "constructs";
 
-import { STACK_PREFIX } from "./app";
+import { STACK_PREFIX } from "../bin/app";
 
 export class VpcResources extends Construct {
 

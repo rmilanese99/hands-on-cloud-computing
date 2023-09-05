@@ -1,11 +1,11 @@
 import { App, Stack } from "aws-cdk-lib";
 
-import { AmplifyResources } from "./amplify";
-import { ApiGatewayResources } from "./api-gateway";
-import { CognitoResources } from "./cognito";
-import { InstanceResources } from "./instance";
-import { LoadBalancerResources } from "./load-balancer";
-import { VpcResources } from "./vpc";
+import { AmplifyResources } from "../lib/amplify";
+import { ApiGatewayResources } from "../lib/api-gateway";
+import { CognitoResources } from "../lib/cognito";
+import { InstanceResources } from "../lib/instance";
+import { LoadBalancerResources } from "../lib/load-balancer";
+import { VpcResources } from "../lib/vpc";
 
 export const STACK_PREFIX = 'flora-unimol';
 
