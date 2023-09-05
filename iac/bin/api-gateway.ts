@@ -36,8 +36,7 @@ export class ApiGatewayResources extends Construct {
             corsPreflight: {
                 allowOrigins: ['*'],
                 allowMethods: [CorsHttpMethod.ANY],
-                allowHeaders: ['*'],
-                allowCredentials: true
+                allowHeaders: ['*']
             }
         });
 
