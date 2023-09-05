@@ -27,14 +27,14 @@ export class AppComponent implements OnInit {
 
   public async getPrediction(): Promise<void> {
     this.predict().then((prediction) => {
-      this.prediction = prediction;
+      this.prediction = prediction.message;
     })
     .catch((error) => {
       console.error(error);
     })
   }
 
-  private async predict(): Promise<string> {
+  private async predict(): Promise<any> {
     const token = (await Auth.currentSession()).getAccessToken().getJwtToken();
 
     return API.get('FloraUnimol', '', {

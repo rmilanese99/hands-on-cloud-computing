@@ -1,19 +1,23 @@
 <mat-toolbar color="primary">
-  Flora Unimol
+  Flora UniMol
 </mat-toolbar>
 
 <amplify-authenticator>
   <ng-template amplifySlot="authenticated" let-user="user" let-signOut="signOut">
-    <h2 *ngIf="this.prediction">{{ this.prediction }}</h2>
+    <div class="container">
+      <div class="text">
+        <span>🍪</span>
+        <span *ngIf="this.prediction">{{ this.prediction }}</span>
+        <span>🍪</span>
+      </div>
 
-    <button *ngIf="!this.prediction"
-            mat-button color="primary" (click)="getPrediction()">
-      Take a cookie
-    </button>
+      <button *ngIf="!this.prediction" mat-raised-button color="primary" (click)="getPrediction()">
+        Take a cookie
+      </button>
 
-    <button *ngIf="this.prediction"
-            mat-button color="primary" (click)="getPrediction()">
-      Take another cookie
-    </button>
+      <button *ngIf="this.prediction" mat-raised-button color="primary" (click)="getPrediction()">
+        Take another cookie
+      </button>
+    </div>
   </ng-template>
 </amplify-authenticator>
