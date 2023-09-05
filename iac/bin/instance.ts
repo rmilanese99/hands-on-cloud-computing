@@ -3,6 +3,7 @@ import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage
 import { FileSystem } from "aws-cdk-lib/aws-efs";
 import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
+import { readFileSync } from "fs";
 
 import { STACK_PREFIX } from "./app";
 
@@ -34,6 +35,14 @@ export class InstanceResources extends Construct {
             role: ec2_role,
             securityGroup: resources.ec2_sg
         });
+
+        // Add user data to the launch template, setting required environment variables and reading other commands
+        // from assets
+        const userData = readFileSync('./assets/user-data.sh', 'utf8');
+
+        ec2_template.userData?.addCommands('EFS_ID=' + efs.fileSystemId);
+        ec2_template.userData?.addCommands('STACK_PREFIX=' + STACK_PREFIX);
+        ec2_template.userData?.addCommands(userData);
 
         // Create an ASG with 2-4 EC2 instances distributed across the 2 AZs
         const ec2_asg = new AutoScalingGroup(this, `${STACK_PREFIX}-ec2-asg`, {
