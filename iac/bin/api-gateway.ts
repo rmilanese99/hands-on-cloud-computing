@@ -1,4 +1,4 @@
-import { CorsHttpMethod, HttpApi, VpcLink } from '@aws-cdk/aws-apigatewayv2-alpha';
+import { CorsHttpMethod, HttpApi, HttpMethod, HttpNoneAuthorizer, VpcLink } from '@aws-cdk/aws-apigatewayv2-alpha';
 import { HttpUserPoolAuthorizer } from '@aws-cdk/aws-apigatewayv2-authorizers-alpha';
 import { HttpAlbIntegration } from '@aws-cdk/aws-apigatewayv2-integrations-alpha';
 import { UserPool, UserPoolClient } from 'aws-cdk-lib/aws-cognito';
@@ -38,6 +38,14 @@ export class ApiGatewayResources extends Construct {
                 allowMethods: [CorsHttpMethod.ANY],
                 allowHeaders: ['*']
             }
+        });
+
+        // Add a route to the API Gateway to handle CORS preflight requests
+        api_gateway.addRoutes({
+            path: '/{proxy+}',
+            methods: [HttpMethod.OPTIONS],
+            integration: vpc_link_integration,
+            authorizer: new HttpNoneAuthorizer()
         });
 
         this.api_gateway = api_gateway;

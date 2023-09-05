@@ -35,10 +35,18 @@ export class LoadBalancerResources extends Construct {
             targets: [resources.ec2_asg]
         });
 
-        // Add a listener to the ALB to forward incoming requests on port 80 to the target group
+        // Add a listener to the ALB to forward incoming requests on port 80 to the target group, then set a fixed
+        // response for CORS preflight requests
         const alb_listener = alb.addListener(`${STACK_PREFIX}-asg-listener`, {
             port: 80,
             defaultTargetGroups: [alb_group]
+        });
+        alb_listener.addAction(`${STACK_PREFIX}-asg-preflight-action`, {
+            action: ListenerAction.fixedResponse(200),
+            conditions: [
+                ListenerCondition.httpRequestMethods(['OPTIONS'])
+            ],
+            priority: 1
         });
 
         // Create a VPC link to allow the API Gateway to access the private EC2 instances through the ALB
