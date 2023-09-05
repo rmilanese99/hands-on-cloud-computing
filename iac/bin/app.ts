@@ -32,9 +32,9 @@ export class FloraStack extends Stack {
         new AmplifyResources(this, `${STACK_PREFIX}-amplify-res`, { api_gateway, cognito_client, cognito_pool });
     }
 }
-/*
-** Dividere in più costrutti le AZ?
-** Creare il modello dell'app (costrutto e stack)
-** Ho inserito nel sec.group allowAllOutbound: true per l'ALB, ma non so se è corretto (vedere se è giusto)
-** Dobbiamo creare in IAM Role  per la EC2 (e nel caso aggiungerlo all'istanza) https://bobbyhadz.com/blog/aws-cdk-ec2-instance-example
-*/
+
+const app = new App();
+
+new FloraStack(app, `${STACK_PREFIX}-stack`);
+
+app.synth();
