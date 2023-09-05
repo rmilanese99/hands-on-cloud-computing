@@ -28,8 +28,8 @@ export class LoadBalancerResources extends Construct {
         const alb_group = new ApplicationTargetGroup(this, `${STACK_PREFIX}-asg-tg`, {
             vpc: resources.vpc,
             port: 80,
-            // Here we use the least outstanding requests algorithm to distribute requests as they may vary in
-            // complexity
+            // Here we use the least outstanding requests algorithm to distribute requests 
+            // as they may vary in complexity
             loadBalancingAlgorithmType:
                 TargetGroupLoadBalancingAlgorithmType.LEAST_OUTSTANDING_REQUESTS,
             targets: [resources.ec2_asg]
