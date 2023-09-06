@@ -27,16 +27,18 @@ export class VpcResources extends Construct {
             }]
         });
 
-        // Create security groups for the ALB, EC2 instances, EFS and VPC Link
+        // Create security groups for the ALB, EC2 instances, EFS, ICE and VPC Link
         const alb_sg = new SecurityGroup(this, `${STACK_PREFIX}-alb-sg`, { vpc });
         const ec2_sg = new SecurityGroup(this, `${STACK_PREFIX}-ec2-sg`, { vpc });
         const efs_sg = new SecurityGroup(this, `${STACK_PREFIX}-efs-sg`, { vpc });
+        const ice_sg = new SecurityGroup(this, `${STACK_PREFIX}-ice-sg`, { vpc });
         const vpc_link_sg = new SecurityGroup(this, `${STACK_PREFIX}-vpc-link-sg`, { vpc });
 
         // Define ingress rules for the ALB security group
         alb_sg.addIngressRule(vpc_link_sg, Port.tcp(80), 'Allow HTTP traffic from the VPC Link');
 
         // Define ingress rules for the EC2 security group
+        ec2_sg.addIngressRule(ice_sg, Port.tcp(22), 'Allow SSH traffic from the ICE');
         ec2_sg.addIngressRule(alb_sg, Port.tcp(8080), 'Allow HTTP traffic from the ALB');
 
         // Define ingress rules for the EFS security group
