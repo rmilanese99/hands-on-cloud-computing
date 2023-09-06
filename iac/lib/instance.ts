@@ -1,7 +1,7 @@
 import { AutoScalingGroup } from "aws-cdk-lib/aws-autoscaling";
 import { InstanceClass, InstanceSize, InstanceType, LaunchTemplate, MachineImage, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { FileSystem } from "aws-cdk-lib/aws-efs";
-import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Construct } from "constructs";
 import { readFileSync } from "fs";
 
