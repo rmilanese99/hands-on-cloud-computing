@@ -14,9 +14,34 @@ export class InstanceResources extends Construct {
     constructor(scope: Construct, id: string, resources: { vpc: Vpc, ec2_sg: SecurityGroup, efs_sg: SecurityGroup }) {
         super(scope, id);
 
-        // Create an IAM role for the EC2 instances for the EFS
+        // Define an inline IAM policy for the EC2 instances to access the stack-related secrets
+        const ec2_secret_policy = new PolicyDocument({
+            statements: [
+                new PolicyStatement({
+                    actions: [
+                        'secretsmanager:GetResourcePolicy',
+                        'secretsmanager:GetSecretValue',
+                        'secretsmanager:DescribeSecret',
+                        'secretsmanager:ListSecretVersionIds'
+                    ],
+                    resources: [`arn:aws:secretsmanager:*:*:secret:${STACK_PREFIX}*`]
+                }),
+                new PolicyStatement({
+                    actions: [
+                        'kms:Decrypt',
+                        'secretsmanager:ListSecrets'
+                    ],
+                    resources: ['*']
+                })
+            ]
+        })
+
+        // Create an IAM role for the EC2 instances
         const ec2_role = new Role(this, `${STACK_PREFIX}-ec2-role`, {
             assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+            inlinePolicies: {
+                'ec2-secret-policy': ec2_secret_policy
+            }
         });
 
         // Create an EFS and grant read/write access to the EC2 instances
