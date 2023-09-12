@@ -53,10 +53,16 @@ GLi EBS sono prenseti e sono di default nelle EC2, abbiamo scelto di utilizzare 
 ### Come funzionano i Sec Group
 Li abbiamo definiti andando a definire su quale porta e da quale altro security group è possibile ricevere le chiamate, per esepmio EC2 riceve le chiamate dal ALB sulla porta 8080
 ### Come funziona il vpc link e perché non è definito?
+Il VpcLink è un endpoint definito all'interno dell'ApiGateway e permette di instradare le chiamate che arrivano all'apiGateway verso il loadBalancer
 ### Perché non un S3
+Usando un S3 che è region based avremmo che tutte le istanze dovrebbero andare a scaricare il modello in locale e quidni avremmo n istanze con n modelli, quidni abbiamo preferito utilizzare un EFS sia per permettere di avere un'unica versione del modello ma anche perché risparmiamo memoria
 ### Serve sempre un VPC Link (submet private)
+Nel nostro caso è necessatio perché abbiamo che le EC2 sono in subnet private e quidni è necessario per raggiungere le istanze
 ### Fault tollerance (high availability con zero down time)
 ### Perché ApiGateway non sta dentro la vpc?
+In quanto è un servizio region based gestito da AWS e quindi non si trova all'interno della nostra VPC
 ### Perché ci sono istanze furi dalle subnet pub
 ### In che modo avviene l'integrazione tra amplify e cog
 ### Perché non usare ACL
+Perché è un servizio stateless quindi in ogni caso non permetterebbe di ricevere le risposte
+### Perché Stoccolma?
