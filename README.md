@@ -31,19 +31,20 @@ IAM/security credential/Access key
 
 > npx cdk deploy
 
-Perché usare Amplify? 
-Come gestire il codice sorgente dell'APP? 
-Perché si autenticano le chiamate?
-Come si garantisce che in tutto il mondo sia accessibile? CDN
-Perchè c'è la subnet public
-Perché non usare i security group? (ulteriore livello di sicurezza)
-Diffenreza tra iam role e user e perché lo abbiamo definito? 
-Perché EFS e non EBS 
-Come funzionano i Sec Group
-Come funziona il vpc link e perché non è definito?
-Perché non un S3
-Serve sempre un VPC Link (submet private)
-Fault tollerance (high availability con zero down time)
-Perché ApiGateway non sta dentro la vpc?
-Perché ci sono istanze furi dalle subnet pub
-In che modo avviene l'integrazione tra amplify e cog
+
+### Perché usare Amplify? 
+### Come gestire il codice  sorgente dell'APP? 
+### Perché si autenticano le chiamate?
+### Come si garantisce che in tutto il mondo sia accessibile? CDN
+### Perchè c'è la subnet public
+### Perché non usare i security group? (ulteriore livello di sicurezza)
+### Diffenreza tra iam role e user e perché lo abbiamo definito? 
+### Perché EFS e non EBS 
+### Come funzionano i Sec Group
+### Come funziona il vpc link e perché non è definito?
+### Perché non un S3
+### Serve sempre un VPC Link (submet private)
+### Fault tollerance (high availability con zero down time)
+### Perché ApiGateway non sta dentro la vpc?
+### Perché ci sono istanze furi dalle subnet pub
+### In che modo avviene l'integrazione tra amplify e cog
