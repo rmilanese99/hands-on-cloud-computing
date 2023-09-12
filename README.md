@@ -33,14 +33,25 @@ IAM/security credential/Access key
 
 
 ### Perché usare Amplify? 
+Usiamo Amplify perchè vogliamo in primis soddisfare il requisito che la web application debba essere disponibile a livello mondiale, e questo Amplify lo permette di fare in quanto va a distribuire l'applicazione sulle edge location di AWS utilizzando CloudFront.
+Secondo motivo è perché trattandosi di un portale a pagamento vogliamo che gli utenti prima e le chiamate dopo siano autneticate in modo che solamente le chiamate provenienti da utenti auntenticati raggiungano il modello. Questo possiamo farlo utilizzando il servizio managed Amaxon cognito che si integra con Amplify e con API Gateway. 
+Infine come ultima ragione che ci ha spinto a scegliere amplify è stata la possibilità di poter integrare direttamente github in questo modo abbiamo che manutenendo il codice nella repository questo sia sempre aggiornato all'ultima versione anche in Amplify. 
 ### Come gestire il codice  sorgente dell'APP? 
+Il codice sorgente dell'applicazione è contentuo allinterno della repository GitHub amplify va a collegarsi andando a scaricare il codice dalla cartella forntend
 ### Perché si autenticano le chiamate?
-### Come si garantisce che in tutto il mondo sia accessibile? CDN
+Autentichiamo le chiamate perché vogliamo che al modello arrivino solamente quelle chiamate che sono state richieste dagli utenti correnttamente autenticati. Questo eprché si tratta di un portale a pagamento. 
+### Come si garantisce che in tutto il mondo sia accessibile?
+Attraverso la content delivery network e la propagazione del codice nelle edge location di aws
 ### Perchè c'è la subnet public
+Per permettere alla macchina ec2 di collegarsi ad internet ed effettuare il setup iniziale delle dipendenze inserite nello user data ma anche perché non sapendo nel concreto com'è svilupparto il modello questo potrebbe aver necessità di collegarsi ad interet per reperire immagini per la predizione
 ### Perché non usare i security group? (ulteriore livello di sicurezza)
+Potevamo mettere le istanze ec2 nella subnet pubblica quindi con un ip pubblico e andare a gestire gli accessi con i security group che sono Statefull e quidni di default consentono le chiamate on outbound e di conseguenza consentono anche di ricevere le risposte, tuttavia abbiamo deciso di dicriminare el subnet per aggiungere un ulteriore livello di sicurezza.
 ### Diffenreza tra iam role e user e perché lo abbiamo definito? 
+Un iam Role è un ruolo che sarà definito da delle policy, noi l abbiamo definito per le ec2 per consentire di andare ad accedere ai secret e scaricare il codice della repository backend nelle istanze ec2. Un iam user incece è un utente umano. 
 ### Perché EFS e non EBS 
+GLi EBS sono prenseti e sono di default nelle EC2, abbiamo scelto di utilizzare però per lo storage del modello un EFS perché questo consente di essere montato su più istanze e quidni avere un unico storage **CENTRALIZZATO** a cui tutte le istanze poi si collegheranno e quindi tutte le ec2 avranno l'ultima versione del modello. 
 ### Come funzionano i Sec Group
+Li abbiamo definiti andando a definire su quale porta e da quale altro security group è possibile ricevere le chiamate, per esepmio EC2 riceve le chiamate dal ALB sulla porta 8080
 ### Come funziona il vpc link e perché non è definito?
 ### Perché non un S3
 ### Serve sempre un VPC Link (submet private)
@@ -48,3 +59,4 @@ IAM/security credential/Access key
 ### Perché ApiGateway non sta dentro la vpc?
 ### Perché ci sono istanze furi dalle subnet pub
 ### In che modo avviene l'integrazione tra amplify e cog
+### Perché non usare ACL
