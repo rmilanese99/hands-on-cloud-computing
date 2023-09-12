@@ -31,7 +31,10 @@ export class ApiGatewayResources extends Construct {
         // Creates an API Gateway which redirects by default all the authenticated requests to the private EC2
         // instances behind the ALB
         const api_gateway = new HttpApi(this, `${STACK_PREFIX}-api-gateway`, {
+            // Here we use the default integration to redirect all the requests to the ALB
+            // Dove vanno le richieste che arrivano di default
             defaultIntegration: vpc_link_integration,
+            // Devono essere autenticate da...
             defaultAuthorizer: cognito_authorizer,
             corsPreflight: {
                 allowOrigins: ['*'],
@@ -41,6 +44,7 @@ export class ApiGatewayResources extends Construct {
         });
 
         // Add a route to the API Gateway to handle CORS preflight requests
+        // Serve perchè le richieste CORS devono essere gestite in modo diverso viaggiano su Http Optiuons
         api_gateway.addRoutes({
             path: '/{proxy+}',
             methods: [HttpMethod.OPTIONS],

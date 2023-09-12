@@ -26,7 +26,7 @@ export class InstanceResources extends Construct {
                     ],
                     resources: [`arn:aws:secretsmanager:*:*:secret:${STACK_PREFIX}*`]
                 }),
-                new PolicyStatement({
+                new PolicyStatement({       
                     actions: [
                         'kms:Decrypt',
                         'secretsmanager:ListSecrets'
@@ -41,7 +41,7 @@ export class InstanceResources extends Construct {
             assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
             inlinePolicies: {
                 'ec2-secret-policy': ec2_secret_policy
-            }
+            }   
         });
 
         // Create an EFS and grant read/write access to the EC2 instances
