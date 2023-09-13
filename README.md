@@ -22,6 +22,11 @@ ref: https://docs.aws.amazon.com/cdk/v2/guide/getting_started.html
 ![Architecture](architectureH.svg)
 
 ## Bootstrapping and Deploy command
+Install the AWS Command Line https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+> aws configure 
+IAM/security credential/Access key
+
 > npx cdk bootstrap aws://{AWS_ID_Account}/{region}
 
 > npx cdk deploy
